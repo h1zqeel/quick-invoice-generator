@@ -43,7 +43,8 @@
 			"manage-info.html",
 			"assets/css/**/*",
 			"assets/**/*",
-			"templates/**/*"
+			"templates/**/*",
+			"database.sqlite"
 		],
 		"mac": {
 			"target": "dmg"
