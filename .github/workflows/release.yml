@@ -33,7 +33,7 @@ jobs:
             - name: Generate Tag
               id: generate_tag
               run: |
-                  $VERSION = (Get-Date -Format "yyyyMMddHHmmss")
+                  $VERSION = (Get-Date -Format "yyyy-MM-dd-HH-mm-ss")
                   git config user.name "github-actions"
                   git config user.email "github-actions@github.com"
                   git tag -a "v$VERSION" -m "Automated release tag v$VERSION"
