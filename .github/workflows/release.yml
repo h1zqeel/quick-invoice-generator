@@ -30,12 +30,12 @@ jobs:
             - name: Generate Tag
               id: tag
               run: |
-                  VERSION=$(date +"%Y%m%d%H%M%S")
+                  $VERSION = (Get-Date -Format "yyyyMMddHHmmss")
                   git config user.name "github-actions"
                   git config user.email "github-actions@github.com"
-                  git tag -a "v${VERSION}" -m "Automated release tag v${VERSION}"
-                  git push origin "v${VERSION}"
-                  echo "TAG=v${VERSION}" >> $GITHUB_ENV
+                  git tag -a "v$VERSION" -m "Automated release tag v$VERSION"
+                  git push origin "v$VERSION"
+                  echo "TAG=v$VERSION" >> $env:GITHUB_ENV
 
             - name: Build Windows App
               run: npm run build:win
@@ -54,7 +54,7 @@ jobs:
     build-macos:
         name: Build macOS
         runs-on: macos-latest
-        needs: build-windows # macOS job waits for the Windows job to complete
+        needs: build-windows
 
         steps:
             - name: Checkout Code
