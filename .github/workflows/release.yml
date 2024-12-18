@@ -9,12 +9,9 @@ permissions:
     contents: write
 
 jobs:
-    build-and-release:
-        name: Build and Release
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [macos-latest, windows-latest]
+    build-windows:
+        name: Build Windows
+        runs-on: windows-latest
 
         steps:
             - name: Checkout Code
@@ -33,7 +30,6 @@ jobs:
             - name: Generate Tag
               id: tag
               run: |
-                  # Generate a unique version tag based on the date and time
                   VERSION=$(date +"%Y%m%d%H%M%S")
                   git config user.name "github-actions"
                   git config user.email "github-actions@github.com"
@@ -41,17 +37,54 @@ jobs:
                   git push origin "v${VERSION}"
                   echo "TAG=v${VERSION}" >> $GITHUB_ENV
 
-            - name: Build Electron App
-              run: npm run build
+            - name: Build Windows App
+              run: npm run build:win
+              env:
+                  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+            - name: Upload Windows Build to GitHub Releases
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: ${{ env.TAG }}
+                  files: |
+                      dist/*.exe
               env:
                   GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-            - name: Upload to GitHub Releases
+    build-macos:
+        name: Build macOS
+        runs-on: macos-latest
+        needs: build-windows # macOS job waits for the Windows job to complete
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+
+            - name: Install Dependencies
+              run: npm install
+
+            - name: Get Tag from Previous Job
+              run: |
+                  echo "Using tag from Windows build: ${{ needs.build-windows.outputs.TAG }}"
+                  echo "TAG=${{ needs.build-windows.outputs.TAG }}" >> $GITHUB_ENV
+
+            - name: Build macOS App
+              run: npm run build:mac
+              env:
+                  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+            - name: Upload macOS Build to GitHub Releases
               uses: softprops/action-gh-release@v1
               with:
-                  tag_name: ${{ env.TAG }} 
+                  tag_name: ${{ env.TAG }}
                   files: |
                       dist/*.dmg
-                      dist/*.exe
               env:
                   GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
