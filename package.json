@@ -1,27 +1,59 @@
 {
-  "name": "quick-invoice-generator",
-  "version": "1.0.0",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tailwind:watch": "npx tailwindcss -i ./assets/css/tailwind.css -o ./assets/css/output.css --watch"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "ejs": "^3.1.10",
-    "electron": "^33.2.1",
-    "fs": "^0.0.1-security",
-    "path": "^0.12.7",
-    "sqlite3": "^5.1.7",
-    "wkhtmltopdf": "^0.4.0"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17"
-  }
+	"name": "quick-invoice-generator",
+	"version": "1.0.0",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron .",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"tailwind:watch": "npx tailwindcss -i ./assets/css/tailwind.css -o ./assets/css/output.css --watch",
+		"build:win": "electron-builder --win",
+		"build:mac": "electron-builder --mac",
+		"build": "electron-builder"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "A desktop app to generate, manage, and store invoices with PDF generation.",
+	"dependencies": {
+		"ejs": "^3.1.10",
+		"electron": "^33.2.1",
+		"fs": "^0.0.1-security",
+		"path": "^0.12.7",
+		"sqlite3": "^5.1.7",
+		"wkhtmltopdf": "^0.4.0"
+	},
+	"devDependencies": {
+		"autoprefixer": "^10.4.20",
+		"electron-builder": "^25.1.8",
+		"postcss": "^8.4.49",
+		"tailwindcss": "^3.4.17"
+	},
+	"build": {
+		"appId": "com.example.quickinvoicegenerator",
+		"productName": "QuickInvoiceGenerator",
+		"directories": {
+			"output": "dist"
+		},
+		"files": [
+			"main.js",
+			"package.json",
+			"index.html",
+			"invoices.html",
+			"manage-info.html",
+			"assets/css/**/*",
+			"assets/**/*",
+			"templates/**/*"
+		],
+		"mac": {
+			"target": "dmg"
+		},
+		"win": {
+			"target": "nsis"
+		},
+		"publish": {
+			"provider": "github",
+			"owner": "h1zqeel",
+			"repo": "quick-invoice-generator"
+		}
+	}
 }
