@@ -30,7 +30,7 @@ jobs:
               run: |
                   npm run build
               env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
             - name: Upload Release Artifacts
               uses: softprops/action-gh-release@v1
@@ -39,4 +39,4 @@ jobs:
                       dist/*.dmg
                       dist/*.exe
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
