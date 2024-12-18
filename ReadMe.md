@@ -43,7 +43,7 @@ Follow these steps to clone and run the project locally:
 ### **Prerequisites**
 - **Node.js** and **npm** installed.  
 - **wkhtmltopdf** installed ([Installation Instructions](https://wkhtmltopdf.org/downloads.html)).
-
+  - **wkhtmltopdf** should be available in cmd/terminal (added to PATH) to work
 ### **Steps**
 1. **Clone the Repository**:
    ```bash
