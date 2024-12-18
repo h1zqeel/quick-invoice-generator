@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Manage Invoice Templates</title>
+		<link rel="stylesheet" href="assets/css/output.css" />
+	</head>
+	<body class="bg-gray-100 text-gray-800">
+		<div class="container mx-auto p-10">
+			<h1 class="text-4xl font-bold text-center mb-10">
+				Manage Invoice Templates
+			</h1>
+
+			<form
+				id="template-form"
+				class="bg-white p-8 rounded-lg shadow-lg mb-10 space-y-6"
+			>
+				<h2 class="text-2xl font-semibold mb-4">
+					Create a New Template
+				</h2>
+
+				<div>
+					<label for="templateName" class="block font-medium mb-1"
+						>Template Name</label
+					>
+					<input
+						type="text"
+						id="templateName"
+						class="w-full p-2 border rounded"
+						placeholder="Enter Template Name"
+						required
+					/>
+				</div>
+
+				<h3 class="text-lg font-semibold mt-4">Client Information</h3>
+				<div class="grid grid-cols-2 gap-4">
+					<div>
+						<label for="clientName" class="block font-medium"
+							>Client Name</label
+						>
+						<input
+							type="text"
+							id="clientName"
+							class="w-full p-2 border rounded"
+						/>
+					</div>
+					<div>
+						<label for="clientEmail" class="block font-medium"
+							>Client Email</label
+						>
+						<input
+							type="email"
+							id="clientEmail"
+							class="w-full p-2 border rounded"
+						/>
+					</div>
+				</div>
+
+				<div>
+					<label for="clientAddressStreet" class="block font-medium"
+						>Street Address</label
+					>
+					<input
+						type="text"
+						id="clientAddressStreet"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+				<div>
+					<label for="clientAddressStreet2" class="block font-medium"
+						>Address Line 2</label
+					>
+					<input
+						type="text"
+						id="clientAddressStreet2"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+				<div class="grid grid-cols-3 gap-4">
+					<div>
+						<label for="clientCity" class="block font-medium"
+							>City</label
+						>
+						<input
+							type="text"
+							id="clientCity"
+							class="w-full p-2 border rounded"
+						/>
+					</div>
+					<div>
+						<label for="clientState" class="block font-medium"
+							>State</label
+						>
+						<input
+							type="text"
+							id="clientState"
+							class="w-full p-2 border rounded"
+						/>
+					</div>
+					<div>
+						<label for="clientZip" class="block font-medium"
+							>ZIP Code</label
+						>
+						<input
+							type="text"
+							id="clientZip"
+							class="w-full p-2 border rounded"
+						/>
+					</div>
+				</div>
+				<div>
+					<label for="clientCountry" class="block font-medium"
+						>Country</label
+					>
+					<input
+						type="text"
+						id="clientCountry"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+
+				<h3 class="text-lg font-semibold mt-4">Trader Information</h3>
+				<div>
+					<label for="traderName" class="block font-medium"
+						>Trader Name</label
+					>
+					<input
+						type="text"
+						id="traderName"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+				<div>
+					<label
+						for="traderBusinessIdentifiers"
+						class="block font-medium"
+						>Business Identifiers</label
+					>
+					<input
+						type="text"
+						id="traderBusinessIdentifiers"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+				<div>
+					<label for="traderEmail" class="block font-medium"
+						>Trader Email</label
+					>
+					<input
+						type="email"
+						id="traderEmail"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+				<div>
+					<label for="traderPhone" class="block font-medium"
+						>Phone</label
+					>
+					<input
+						type="text"
+						id="traderPhone"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+
+				<div>
+					<label for="traderAddressStreet" class="block font-medium"
+						>Street Address</label
+					>
+					<input
+						type="text"
+						id="traderAddressStreet"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+				<div>
+					<label for="traderAddressStreet2" class="block font-medium"
+						>Address Line 2</label
+					>
+					<input
+						type="text"
+						id="traderAddressStreet2"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+				<div class="grid grid-cols-3 gap-4">
+					<div>
+						<label for="traderCity" class="block font-medium"
+							>City</label
+						>
+						<input
+							type="text"
+							id="traderCity"
+							class="w-full p-2 border rounded"
+						/>
+					</div>
+					<div>
+						<label for="traderState" class="block font-medium"
+							>State</label
+						>
+						<input
+							type="text"
+							id="traderState"
+							class="w-full p-2 border rounded"
+						/>
+					</div>
+					<div>
+						<label for="traderZip" class="block font-medium"
+							>ZIP Code</label
+						>
+						<input
+							type="text"
+							id="traderZip"
+							class="w-full p-2 border rounded"
+						/>
+					</div>
+				</div>
+				<div>
+					<label for="traderCountry" class="block font-medium"
+						>Country</label
+					>
+					<input
+						type="text"
+						id="traderCountry"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+
+				<h3 class="text-lg font-semibold mt-4">Payment & Notes</h3>
+				<div>
+					<label
+						for="clientTraderPaymentTerms"
+						class="block font-medium mb-1"
+						>Payment Terms</label
+					>
+					<input
+						type="text"
+						id="clientTraderPaymentTerms"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+				<div>
+					<label for="invoiceNotes" class="block font-medium mb-1"
+						>Invoice Notes</label
+					>
+					<textarea
+						id="invoiceNotes"
+						class="w-full p-2 border rounded"
+						rows="3"
+					></textarea>
+				</div>
+				<div>
+					<label
+						for="paymentDetailsTitle"
+						class="block font-medium mb-1"
+						>Payment Details Title</label
+					>
+					<input
+						type="text"
+						id="paymentDetailsTitle"
+						class="w-full p-2 border rounded"
+					/>
+				</div>
+				<div>
+					<label
+						for="paymentDetailsNotes"
+						class="block font-medium mb-1"
+						>Payment Details Notes</label
+					>
+					<textarea
+						id="paymentDetailsNotes"
+						class="w-full p-2 border rounded"
+						rows="3"
+					></textarea>
+				</div>
+
+				<button
+					type="submit"
+					class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+				>
+					Save Template
+				</button>
+			</form>
+
+			<h2 class="text-2xl font-semibold mb-4">Saved Templates</h2>
+			<ul
+				id="template-list"
+				class="bg-white p-4 rounded-lg shadow-lg space-y-4"
+			></ul>
+
+			<button
+				id="back"
+				class="w-full bg-gray-500 text-white py-2 mt-4 rounded-lg hover:bg-gray-600"
+			>
+				Back to Invoice Form
+			</button>
+		</div>
+
+		<script src="renderer.js"></script>
+		<script>
+			document.getElementById("back").addEventListener("click", () => {
+				window.location.href = "index.html";
+			});
+		</script>
+	</body>
+</html>

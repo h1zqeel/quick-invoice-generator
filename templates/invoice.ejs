@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tax Invoice</title>
+		<style>
+			<%= inlineCSS %>
+		
+			/* Default Styles */
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			.flex {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+			}
+
+			.justify-between {
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: space-between;
+			}
+
+			.flex-row {
+				-webkit-box-orient: horizontal;
+				-webkit-box-direction: normal;
+				-ms-flex-direction: row;
+				flex-direction: row;
+			}
+
+			.flex-1 {
+				-webkit-box-flex: 1;
+				-ms-flex: 1;
+				flex: 3;
+			}
+
+			.table-header {
+				background-color: #e5e5e5;
+				color: #000000;
+			}
+
+			.table-border {
+				border: 1px solid #000000;
+			}
+
+			.table-border-top {
+				border-top: 1px solid #000000;
+			}
+
+			.table-border-left {
+				border-left: 1px solid #000000;
+			}
+
+			.table-border-right {
+				border-right: 1px solid #000000;
+			}
+
+			.table-row {
+				background-color: #ffffff;
+			}
+
+			.table-alt-row {
+				background-color: #f3f4f6;
+			}
+
+			.border-black {
+				border-color: #000000;
+			}
+
+			.description-column {
+				width: 50%;
+			}
+		</style>
+	</head>
+	<body class="bg-white px-12 py-8 font-sans text-black">
+		<div class="mb-8 flex flex-row justify-between">
+			<div class="flex-1">
+				<h2 class="mb-2 text-lg font-bold"><%= template.trader_name %></h2>
+				<p><%= template.trader_buisness_identifiers %></p>
+				<p><%= template.trader_address_street %></p>
+				<p><%= template.trader_address_city %>, <%= template.trader_address_state %> <%= template.trader_address_zip %></p>
+				<p><%= template.trader_address_country %></p>
+				<p><%= template.trader_phone %></p>
+				<p><%= template.trader_email %></p>
+			</div>
+			<div class="flex">
+				<div class="mb-8 text-center">
+					<h1 class="text-2xl font-bold tracking-wider">
+						Tax Invoice
+					</h1>
+				</div>
+			</div>
+		</div>
+
+		<div class="relative mb-8">
+			<div class="border-t border-black"></div>
+			<div class="mt-0.5 border-t border-black"></div>
+		</div>
+
+		<div class="mb-6 flex justify-between">
+			<div class="flex flex-1 flex-row">
+				<div class="mr-4">
+					<h2 class="text-lg font-bold">Bill To:</h2>
+				</div>
+				<div>
+					<p class="whitespace-nowrap">
+						<%= template.client_name %>
+					</p>
+					<p class="whitespace-nowrap"><%= template.client_address_street %>, <%= template.client_address_street2 %></p>
+					<p class="whitespace-nowrap"><%= template.client_address_city %>, <%= template.client_address_state %> <%= template.client_address_zip %></p>
+					<p class="whitespace-nowrap"><%= template.client_address_country %></p>
+					<p class="whitespace-nowrap"><%= template.client_name %></p>
+				</div>
+			</div>
+			<div>
+				<p class="whitespace-nowrap">
+					<span class="font-bold">Invoice Number:</span> <%=
+					invoice.invoiceNumber %>
+				</p>
+				<p class="whitespace-nowrap">
+					<span class="font-bold">Invoice Date:</span> <%=
+					invoice.invoiceDate %>
+				</p>
+				<p class="whitespace-nowrap">
+					<span class="font-bold">Due By:</span> <%= invoice.dueDate
+					%>
+				</p>
+				<p class="whitespace-nowrap">
+					<span class="font-bold">Payment Terms:</span> <%= template.client_trader_payment_terms %>
+				</p>
+			</div>
+		</div>
+
+		<table class="mb-8 w-full text-left">
+			<thead class="table-header border-black">
+				<tr>
+					<th
+						class="table-border-top table-border-left p-3 font-bold description-column"
+					>
+						Description
+					</th>
+					<th class="table-border-top p-3 font-bold">Hours</th>
+					<th class="table-border-top p-3 font-bold">Hourly Rate</th>
+					<th
+						class="table-border-top table-border-right p-3 font-bold"
+					>
+						Subtotal
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% invoice.items.forEach((item, index) => { %>
+				<tr
+					class="<%= index % 2 === 0 ? 'table-row' : 'table-alt-row' %>"
+				>
+					<td class="table-border p-3 description-column">
+						<p><%= item.descriptionLine1 %></p>
+						<p><%= item.descriptionLine2 %></p>
+						<p><%= item.descriptionLine3 %></p>
+					</td>
+					<td class="table-border p-3"><%= item.hours %></td>
+					<td class="table-border p-3">$<%= item.hourlyRate %></td>
+					<td class="table-border p-3">$<%= item.subtotal %></td>
+				</tr>
+				<% }) %>
+			</tbody>
+			<tfoot>
+				<tr class="table-header">
+					<td
+						colspan="3"
+						class="table-border p-3 text-right font-bold"
+					>
+						Total (USD):
+					</td>
+					<td class="table-border p-3 font-bold">
+						$<%= invoice.total %>
+					</td>
+				</tr>
+				<tr>
+					<td
+						colspan="3"
+						class="table-border p-3 text-right font-bold"
+					>
+						Paid:
+					</td>
+					<td class="table-border p-3 font-bold">$0.00</td>
+				</tr>
+				<tr>
+					<td
+						colspan="3"
+						class="table-border p-3 text-right font-bold"
+					>
+						Balance Due:
+					</td>
+					<td class="table-border p-3 font-bold">
+						$<%= invoice.total %>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<div class="mb-8 text-sm">
+			<p>
+				<%= template.invoice_notes %>
+			</p>
+		</div>
+
+		<!-- Payment Information -->
+		<div>
+			<h2 class="mb-2 text-lg font-bold">Payment Details</h2>
+			<p>
+				<%= template.invoice_payment_details_title %>
+			</p>
+			<p><%= template.invoice_payment_details_notes %></p>
+		</div>
+	</body>
+</html>
