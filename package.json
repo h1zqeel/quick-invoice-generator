@@ -30,7 +30,8 @@
 		"tailwindcss": "^3.4.17"
 	},
 	"build": {
-		"appId": "com.example.quickinvoicegenerator",
+		"appId": "com.h1zqeel.quickinvoicegenerator",
+		"asar": false,
 		"productName": "QuickInvoiceGenerator",
 		"directories": {
 			"output": "dist"
