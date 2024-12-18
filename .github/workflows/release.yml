@@ -6,10 +6,9 @@ on:
             - main
 
 jobs:
-    build:
-        name: Build Electron Apps for macOS and Windows
+    build-and-release:
+        name: Build and Release
         runs-on: ${{ matrix.os }}
-
         strategy:
             matrix:
                 os: [macos-latest, windows-latest]
@@ -17,26 +16,39 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 20
+                  node-version: 18
 
             - name: Install Dependencies
               run: npm install
 
-            - name: Build App
+            - name: Generate Tag
+              id: tag
               run: |
-                  npm run build
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+                  # Generate a unique version tag based on the date and time
+                  VERSION=$(date +"%Y%m%d%H%M%S")
+                  git config user.name "github-actions"
+                  git config user.email "github-actions@github.com"
+                  git tag -a "v${VERSION}" -m "Automated release tag v${VERSION}"
+                  git push origin "v${VERSION}"
+                  echo "TAG=v${VERSION}" >> $GITHUB_ENV
 
-            - name: Upload Release Artifacts
+            - name: Build Electron App
+              run: npm run build
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Upload to GitHub Releases
               uses: softprops/action-gh-release@v1
               with:
+                  tag_name: ${{ env.TAG }} 
                   files: |
                       dist/*.dmg
                       dist/*.exe
               env:
-                  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
