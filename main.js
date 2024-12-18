@@ -54,6 +54,8 @@ app.on("ready", () => {
 		},
 	});
 
+	mainWindow.webContents.openDevTools();
+
 	mainWindow.loadFile("index.html");
 });
 
@@ -69,15 +71,18 @@ ipcMain.on("generate-pdf", async (event, invoiceData) => {
 		const templateId = invoiceData.templateId;
 
 		const templateData = await new Promise((resolve, reject) => {
-			db.get(`SELECT * FROM templates WHERE id = ?`, [templateId], (err, row) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(row);
+			db.get(
+				`SELECT * FROM templates WHERE id = ?`,
+				[templateId],
+				(err, row) => {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(row);
+					}
 				}
-			});
+			);
 		});
-
 
 		const cssPath = path.join(__dirname, "assets/css/output.css");
 		const inlineCSS = fs.readFileSync(cssPath, "utf-8");
@@ -261,8 +266,7 @@ ipcMain.on("fetch-template", (event, templateId) => {
 });
 
 ipcMain.on("get-templates", (event) => {
-	db.all(`SELECT id, name FROM templates`, (err, rows) => {
-		console.log("rows", rows);
+	db.all(`SELECT * FROM templates`, (err, rows) => {
 		if (err) {
 			console.error("Error fetching templates:", err);
 			event.reply("templates-list", []);

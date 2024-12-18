@@ -9,13 +9,51 @@ if (document.getElementById("invoice-form")) {
 		const itemDiv = document.createElement("div");
 		itemDiv.classList.add("item-row");
 		itemDiv.innerHTML = `
-			<input type="text" placeholder="Item Description Line 1" class="item-description-1" required>
-			<input type="text" placeholder="Item Description Line 2" class="item-description-2" required>
-			<input type="text" placeholder="Item Description Line 3" class="item-description-3" required>
-			<input type="number" placeholder="Hours" class="item-hours" min="1" required>
-			<input type="number" placeholder="Hourly Rate" class="item-hourly-rate" min="0" required>
-			<button type="button" class="remove-item">X</button>
+			<div class="flex space-x-4 items-center">
+				<input 
+					type="text" 
+					placeholder="Item Description Line 1" 
+					class="item-description-1 w-1/4 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+					required
+				>
+				<input 
+					type="text" 
+					placeholder="Item Description Line 2" 
+					class="item-description-2 w-1/4 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+					required
+				>
+				<input 
+					type="text" 
+					placeholder="Item Description Line 3" 
+					class="item-description-3 w-1/4 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+					required
+				>
+
+				<input 
+					type="number" 
+					placeholder="Hours" 
+					class="item-hours w-1/6 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+					min="1" 
+					required
+				>
+
+				<input 
+					type="number" 
+					placeholder="Hourly Rate" 
+					class="item-hourly-rate w-1/6 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+					min="0" 
+					required
+				>
+
+				<button 
+					type="button" 
+					class="remove-item bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+				>
+					X
+				</button>
+			</div>
 		`;
+
 		itemsContainer.appendChild(itemDiv);
 
 		itemDiv.querySelector(".remove-item").addEventListener("click", () => {
@@ -59,6 +97,11 @@ if (document.getElementById("invoice-form")) {
 					subtotal: hours * hourlyRate,
 				});
 			}
+
+			invoiceData.total = invoiceData.items.reduce(
+				(total, item) => total + item.subtotal,
+				0
+			);
 		});
 
 		ipcRenderer.send("generate-pdf", invoiceData);
@@ -78,27 +121,12 @@ if (document.getElementById("invoice-form")) {
 			window.location.href = "invoices.html";
 		});
 	}
-
+	document.getElementById("manage-info").addEventListener("click", () => {
+		window.location.href = "manage-info.html";
+	});
 	const templateSelect = document.getElementById("templateSelect");
 
-	templateSelect.addEventListener("change", () => {
-		const selectedId = templateSelect.value;
-		if (selectedId) {
-			ipcRenderer.send("fetch-template", selectedId);
-		}
-	});
-
-	ipcRenderer.on("template-details", (event, template) => {
-		document.getElementById("clientName").value =
-			template.client_name || "";
-		document.getElementById("traderName").value =
-			template.trader_name || "";
-	});
-
-	function loadTemplates() {
-		ipcRenderer.send("get-templates");
-	}
-
+	ipcRenderer.send("get-templates");
 	ipcRenderer.on("templates-list", (event, templates) => {
 		templateSelect.innerHTML =
 			'<option value="">-- Select a Template --</option>';
@@ -110,7 +138,21 @@ if (document.getElementById("invoice-form")) {
 		});
 	});
 
-	loadTemplates();
+	// Pre-fill fields when template is selected
+	templateSelect.addEventListener("change", () => {
+		const templateId = templateSelect.value;
+		if (templateId) {
+			ipcRenderer.send("fetch-template", templateId);
+		}
+	});
+
+	ipcRenderer.on("template-details", (event, template) => {
+		document.getElementById("clientName").value =
+			template.client_name || "";
+		document.getElementById("traderName").value =
+			template.trader_name || "";
+		// Add additional fields here as necessary
+	});
 }
 
 if (document.getElementById("invoices-table")) {
@@ -264,6 +306,7 @@ if (document.getElementById("template-form")) {
 	ipcRenderer.on("templates-list", (event, templates) => {
 		templateList.innerHTML = "";
 		templates.forEach((template) => {
+			console.log(template);
 			const li = document.createElement("li");
 			li.classList.add(
 				"p-2",
