@@ -10,6 +10,8 @@ const db = new sqlite3.Database(path.join(__dirname, "database.sqlite"));
 db.serialize(() => {
 	db.run(`CREATE TABLE IF NOT EXISTS invoices (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+		template_name TEXT,
+		total_amount REAL,
         invoice_number TEXT NOT NULL,
         pdf BLOB
     )`);
@@ -120,8 +122,8 @@ ipcMain.on("generate-pdf", async (event, invoiceData) => {
 				const pdfBuffer = fs.readFileSync(pdfFilePath);
 
 				db.run(
-					`INSERT INTO invoices (invoice_number, pdf) VALUES (?, ?)`,
-					[invoiceData.invoiceNumber, pdfBuffer],
+					`INSERT INTO invoices (invoice_number, pdf, total_amount, template_name) VALUES (?, ?, ?, ?)`,
+					[invoiceData.invoiceNumber, pdfBuffer, invoiceData.total, templateData.name],
 					(err) => {
 						if (err) {
 							console.error("Database insertion error:", err);
@@ -143,7 +145,7 @@ ipcMain.on("generate-pdf", async (event, invoiceData) => {
 });
 
 ipcMain.on("get-invoices", (event) => {
-	db.all(`SELECT id, invoice_number FROM invoices`, (err, rows) => {
+	db.all(`SELECT * FROM invoices`, (err, rows) => {
 		if (err) {
 			console.error("Error fetching invoices:", err);
 			event.reply("invoices-list", []);

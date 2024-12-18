@@ -165,7 +165,7 @@ if (document.getElementById("invoices-table")) {
 		if (invoices.length === 0) {
 			const noDataRow = document.createElement("tr");
 			noDataRow.innerHTML = `
-				<td colspan="2" style="text-align:center;">No Invoices Available</td>
+				<td colspan="4" style="text-align:center;">No Invoices Available</td>
 			`;
 			tableBody.appendChild(noDataRow);
 		} else {
@@ -173,6 +173,8 @@ if (document.getElementById("invoices-table")) {
 				const row = document.createElement("tr");
 				row.innerHTML = `
 					<td>${invoice.invoice_number}</td>
+					<td>${invoice.template_name}</td>
+					<td>${invoice.total_amount}</td>
 					<td>
 						<button class="download" data-id="${invoice.id}">View PDF</button>
 						<button class="delete" data-id="${invoice.id}" style="color: red;">Delete</button>
