@@ -20,6 +20,7 @@
 					<select
 						id="templateSelect"
 						class="w-full p-2 border rounded"
+						required
 					>
 						<option value="">-- Select a Template --</option>
 					</select>
@@ -46,6 +47,18 @@
 					<input
 						type="date"
 						id="invoiceDate"
+						class="w-full p-2 border rounded"
+						required
+					/>
+				</div>
+
+				<div class="mb-4">
+					<label for="dueByDate" class="block font-medium mb-1"
+						>Due By</label
+					>
+					<input
+						type="date"
+						id="dueByDate"
 						class="w-full p-2 border rounded"
 						required
 					/>
@@ -94,9 +107,13 @@
 
 				<button
 					type="submit"
-					class="w-full bg-blue-500 text-white py-3 mt-6 rounded-lg hover:bg-blue-600"
+					id="generate-btn"
+					class="relative w-full bg-blue-500 text-white py-3 mt-6 rounded-lg hover:bg-blue-600 flex justify-center items-center"
 				>
-					Generate & Save
+					<span class="button-text">Generate & Save</span>
+					<span
+						class="loader hidden ml-2 w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"
+					></span>
 				</button>
 			</form>
 

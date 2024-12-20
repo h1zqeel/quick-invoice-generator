@@ -4,6 +4,9 @@ if (document.getElementById("invoice-form")) {
 	const form = document.getElementById("invoice-form");
 	const itemsContainer = document.getElementById("items-container");
 	const addItemButton = document.getElementById("add-item");
+	const generateBtn = document.getElementById("generate-btn");
+	const loader = generateBtn.querySelector(".loader");
+	const buttonText = generateBtn.querySelector(".button-text");
 
 	addItemButton.addEventListener("click", () => {
 		const itemDiv = document.createElement("div");
@@ -41,6 +44,7 @@ if (document.getElementById("invoice-form")) {
 					type="number" 
 					placeholder="Hourly Rate" 
 					class="item-hourly-rate w-1/6 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+					step="0.01"
 					min="0" 
 					required
 				>
@@ -63,10 +67,14 @@ if (document.getElementById("invoice-form")) {
 
 	form.addEventListener("submit", (event) => {
 		event.preventDefault();
+		generateBtn.disabled = true;
+		buttonText.textContent = "Generating...";
+		loader.classList.remove("hidden");
 
 		const invoiceData = {
 			invoiceNumber: document.getElementById("invoiceNumber").value,
 			invoiceDate: document.getElementById("invoiceDate").value,
+			dueByDate: document.getElementById("dueByDate").value,
 			templateId: document.getElementById("templateSelect").value,
 			items: [],
 		};
@@ -108,8 +116,21 @@ if (document.getElementById("invoice-form")) {
 	});
 
 	ipcRenderer.on("pdf-generated", (event, result) => {
+		generateBtn.disabled = false;
+		buttonText.textContent = "Generate & Save";
+		loader.classList.add("hidden");
 		if (result.success) {
-			alert("PDF generated successfully!");
+			if (result.filePath) {
+				alert("PDF generated successfully!");
+				shell.openPath(result.filePath);
+			} else {
+				alert("PDF generated but no file path received.");
+			}
+
+		form.reset();
+
+		const itemsContainer = document.getElementById("items-container");
+		itemsContainer.innerHTML = "";
 		} else {
 			alert("Error generating PDF.");
 		}

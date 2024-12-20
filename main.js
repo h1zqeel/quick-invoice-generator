@@ -48,15 +48,13 @@ let mainWindow;
 
 app.on("ready", () => {
 	mainWindow = new BrowserWindow({
-		width: 800,
-		height: 600,
+		width: 1200,
+		height: 1000,
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
 		},
 	});
-
-	mainWindow.webContents.openDevTools();
 
 	mainWindow.loadFile("index.html");
 });
