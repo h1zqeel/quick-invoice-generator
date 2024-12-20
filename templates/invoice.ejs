@@ -82,12 +82,13 @@
 				<p><%= template.trader_address_street %></p>
 				<p><%= template.trader_address_city %>, <%= template.trader_address_state %> <%= template.trader_address_zip %></p>
 				<p><%= template.trader_address_country %></p>
+				<br />
 				<p><%= template.trader_phone %></p>
 				<p><%= template.trader_email %></p>
 			</div>
 			<div class="flex">
 				<div class="mb-8 text-center">
-					<h1 class="text-2xl font-bold tracking-wider">
+					<h1 class="text-2xl font-bold tracking-wider whitespace-nowrap">
 						Tax Invoice
 					</h1>
 				</div>
@@ -108,10 +109,13 @@
 					<p class="whitespace-nowrap">
 						<%= template.client_name %>
 					</p>
-					<p class="whitespace-nowrap"><%= template.client_address_street %>, <%= template.client_address_street2 %></p>
+					<p class="whitespace-nowrap">
+						<%= template.client_email %>
+					</p>
+					<p class="whitespace-nowrap"><%= template.client_address_street %>,</p>
+					<p class="whitespace-nowrap"><%= template.client_address_street2 %></p>
 					<p class="whitespace-nowrap"><%= template.client_address_city %>, <%= template.client_address_state %> <%= template.client_address_zip %></p>
 					<p class="whitespace-nowrap"><%= template.client_address_country %></p>
-					<p class="whitespace-nowrap"><%= template.client_name %></p>
 				</div>
 			</div>
 			<div>
@@ -124,8 +128,7 @@
 					invoice.invoiceDate %>
 				</p>
 				<p class="whitespace-nowrap">
-					<span class="font-bold">Due By:</span> <%= invoice.dueDate
-					%>
+					<span class="font-bold">Due By:</span> <%= invoice.dueByDate %>
 				</p>
 				<p class="whitespace-nowrap">
 					<span class="font-bold">Payment Terms:</span> <%= template.client_trader_payment_terms %>
@@ -209,11 +212,11 @@
 
 		<!-- Payment Information -->
 		<div>
-			<h2 class="mb-2 text-lg font-bold">Payment Details</h2>
-			<p>
+			<h2 class="mb-1 text-lg font-bold">Payment Details</h2>
+			<p class="font-bold mb-2">
 				<%= template.invoice_payment_details_title %>
 			</p>
-			<p><%= template.invoice_payment_details_notes %></p>
+			<p class="whitespace-pre-wrap"><%= template.invoice_payment_details_notes %></p>
 		</div>
 	</body>
 </html>

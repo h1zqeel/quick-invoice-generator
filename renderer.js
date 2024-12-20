@@ -41,6 +41,7 @@ if (document.getElementById("invoice-form")) {
 					type="number" 
 					placeholder="Hourly Rate" 
 					class="item-hourly-rate w-1/6 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+					step="0.01"
 					min="0" 
 					required
 				>
@@ -67,6 +68,7 @@ if (document.getElementById("invoice-form")) {
 		const invoiceData = {
 			invoiceNumber: document.getElementById("invoiceNumber").value,
 			invoiceDate: document.getElementById("invoiceDate").value,
+			dueByDate: document.getElementById("dueByDate").value,
 			templateId: document.getElementById("templateSelect").value,
 			items: [],
 		};
